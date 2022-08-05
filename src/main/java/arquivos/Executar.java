@@ -6,7 +6,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import arquivos.excel.ArquivoExcel;
+import arquivos.json.ArquivoJson;
 import arquivos.txt.ArquivoTXT;
 import arquivos.txt.Pessoa;
 
@@ -16,7 +20,7 @@ public class Executar {
 
 		List<Pessoa> pessoas = new ArrayList<Pessoa>();
 
-		String tipoArquivo = JOptionPane.showInputDialog("Qual o tipo do arquivo? 1 -> TXT | 2 -> Excel");
+		String tipoArquivo = JOptionPane.showInputDialog("Qual o tipo do arquivo? 1 -> TXT | 2 -> Excel | 3 -> Json");
 		String quantidadePessoa = JOptionPane.showInputDialog("Quantas pessoas deseja inserir no arquivo?");
 		int quantidadePessoaConvertida = Integer.parseInt(quantidadePessoa);
 
@@ -48,8 +52,15 @@ public class Executar {
 			
 			lista = arquivoExcel.lerArquivo();
 
-		} else {
-
+		} else if(tipoArquivo.equals("3")){
+			
+			var arquivoJson = new ArquivoJson();
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(pessoas);
+			
+			arquivoJson.escreverArquivo(json);
+			lista = arquivoJson.lerArquivo();
+			
 		}
 
 		for (Pessoa p : lista) {
